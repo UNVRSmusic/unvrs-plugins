@@ -36,6 +36,16 @@ jobs:
       - name: Build
         run: cmake --build build --config Release --parallel
 
+      - name: Check static runtime
+        # the plugins must not import the MSVC runtime DLLs (hosts such as Ableton load an older one)
+        shell: pwsh
+        run: |
+          $bad = Get-ChildItem -Path build -Recurse -File -Filter *.vst3 |
+            Where-Object { $_.FullName -match '\\Release\\VST3\\.+\\Contents\\x86_64-win\\' } |
+            Where-Object { [Text.Encoding]::ASCII.GetString([IO.File]::ReadAllBytes($_.FullName)) -match '(?i)(MSVCP140|VCRUNTIME140)[^.]*\.dll' }
+          if ($bad) { $bad.FullName; throw "plugins depend on the MSVC runtime DLLs" }
+          "OK: no MSVC runtime DLL imports"
+
       - name: Package
         shell: pwsh
         run: |

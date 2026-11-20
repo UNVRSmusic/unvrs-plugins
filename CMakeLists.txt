@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.22)
 
+# Windows: link the MSVC C++ runtime statically, so the plugins do not depend on whatever
+# MSVCP140.dll the host has loaded (Ableton ships an older one, which crashes plugins built
+# with a newer Visual Studio) and work without the VC++ Redistributable installed.
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 project(S2KConverter VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 20)
