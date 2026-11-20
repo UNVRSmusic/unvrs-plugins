@@ -265,10 +265,10 @@ Pro universal build (Apple Silicon + Intel) přidej při konfiguraci `-DCMAKE_OS
 
 ### Windows
 
-Vyžaduje Visual Studio 2022 (workload *Desktop development with C++*) a CMake. Spusť v *Developer PowerShell*:
+Vyžaduje Visual Studio 2022 nebo novější (workload *Desktop development with C++*) a CMake. Spusť v *Developer PowerShell*:
 
 ```powershell
-cmake -B build -G "Visual Studio 17 2022" -A x64
+cmake -B build -A x64
 cmake --build build --config Release
 ```
 
