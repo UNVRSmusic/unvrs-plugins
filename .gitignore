@@ -1,0 +1,22 @@
+# CMake / Xcode build output
+build/
+build-*/
+cmake-build-*/
+CMakeUserPresets.json
+*.xcodeproj/
+*.xcworkspace/
+xcuserdata/
+DerivedData/
+
+# Packaged release archives (upload these to GitHub Releases)
+dist/
+
+# macOS
+.DS_Store
+._*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~

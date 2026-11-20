@@ -47,3 +47,8 @@ Samostatná aplikace je v `build/S2KConverter_artefacts/Release/Standalone/`.
 - Ladění vzorku nahoru a dolů (transpozice při přehrávání) neemuluje, protože efekt v reálném čase nemůže měnit délku signálu.
 - Změna parametru Sample Rate resetuje převodník, takže při přepnutí může krátce lupnout.
 # unvrs-plugins
+
+## Licence
+
+Copyright © 2026 UNVRS. Licencováno pod [GNU AGPLv3](LICENSE).
+JUCE (`JUCE/`) má vlastní licenci, viz [JUCE/LICENSE.md](JUCE/LICENSE.md).
