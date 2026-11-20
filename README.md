@@ -1,4 +1,4 @@
-# S2K Converter
+# UNVRS Audio Plugins
 
 Plugin (VST3 / AU / Standalone) emulující signálovou cestu 16bitového rackového sampleru typu Akai S2000.
 
