@@ -218,24 +218,41 @@ Granulární syntezátor pro plochy a textury.
 ## Stažení a instalace
 
 Zbuildované pluginy jsou ke stažení v sekci [Releases](https://github.com/UNVRSmusic/unvrs-plugins/releases).
+Po instalaci restartuj DAW, případně v něm spusť nové skenování pluginů.
 
-Na macOS zkopíruj:
-- `.vst3` do `~/Library/Audio/Plug-Ins/VST3`
-- `.component` (AU) do `~/Library/Audio/Plug-Ins/Components`
+### macOS (11+, Apple Silicon i Intel)
 
-Pluginy nejsou notarizované od Applu, takže je macOS po stažení může zablokovat. Odblokuješ je v Terminálu:
+1. Stáhni `UNVRS-Plugins-<verze>-macOS.zip` a rozbal ho.
+2. Zkopíruj obsah složky `VST3` do `~/Library/Audio/Plug-Ins/VST3`
+   a obsah složky `Components` (AU) do `~/Library/Audio/Plug-Ins/Components`.
+   Složka `~/Library` je ve Finderu skrytá: *Přejít → Přejít na složku…* (⇧⌘G) a vlož cestu.
+3. Pluginy nejsou notarizované od Applu, takže je macOS po stažení může zablokovat. Odblokuješ je v Terminálu:
 
-```sh
-xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/VST3/*.vst3 ~/Library/Audio/Plug-Ins/Components/*.component
-```
+   ```sh
+   xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/VST3/*.vst3 ~/Library/Audio/Plug-Ins/Components/*.component
+   ```
 
-## Build ze zdrojáků (macOS)
+### Windows (10/11, 64bit)
 
-Vyžaduje Xcode a CMake. JUCE 9.0.5 je jako git submodul ve složce `JUCE/`.
+1. Stáhni `UNVRS-Plugins-<verze>-Windows.zip` a rozbal ho.
+2. Zkopíruj obsah složky `VST3` (složky končící na `.vst3`) do `C:\Program Files\Common Files\VST3`.
+   Windows si řekne o oprávnění správce – potvrď.
+3. Na Windows je jen formát VST3 (AU existuje jen na macOS). DAW musí podporovat 64bitové VST3 pluginy.
+
+## Build ze zdrojáků
+
+JUCE 9.0.5 je jako git submodul ve složce `JUCE/`, proto klonuj s `--recursive`:
 
 ```sh
 git clone --recursive https://github.com/UNVRSmusic/unvrs-plugins.git
 cd unvrs-plugins
+```
+
+### macOS
+
+Vyžaduje Xcode a CMake.
+
+```sh
 cmake -B build -G Xcode
 cmake --build build --config Release
 ```
@@ -243,6 +260,23 @@ cmake --build build --config Release
 Po buildu se pluginy automaticky zkopírují do `~/Library/Audio/Plug-Ins/VST3` a `~/Library/Audio/Plug-Ins/Components`.
 Samostatné aplikace jsou v `build/<Plugin>/<Plugin>_artefacts/Release/Standalone/`
 (S2K Converter v `build/S2KConverter_artefacts/Release/Standalone/`).
+
+Pro universal build (Apple Silicon + Intel) přidej při konfiguraci `-DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"`.
+
+### Windows
+
+Vyžaduje Visual Studio 2022 (workload *Desktop development with C++*) a CMake. Spusť v *Developer PowerShell*:
+
+```powershell
+cmake -B build -G "Visual Studio 17 2022" -A x64
+cmake --build build --config Release
+```
+
+Hotové pluginy jsou v `build\<Plugin>\<Plugin>_artefacts\Release\VST3\`.
+Po buildu se je CMake pokusí zkopírovat do `C:\Program Files\Common Files\VST3`, k tomu je potřeba spustit terminál jako správce.
+
+Windows verze se buildí automaticky přes GitHub Actions ([.github/workflows/windows.yml](.github/workflows/windows.yml))
+a při vydání nové verze se přiloží k release.
 
 ## Licence
 
